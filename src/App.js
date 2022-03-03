@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import About from "./components/About";
 import Header from "./components/Header"
 import AddReflection from './components/AddReflection/AddReflection';
+import SecondHeader from './components/Graphics/SecondHeader';
 
 function App() {
   const [toggleAddReflection, setToggleAddReflection]= useState(false)
@@ -29,7 +30,8 @@ function App() {
           <img src={logo} className="App-logo" alt="logo" />
           </>
           }/>
-      <Route path='/About' element ={<About/>}/>
+      <Route path='/about' element ={<About/>}/>
+
       </Routes>
       <Footer/>
     </div>
