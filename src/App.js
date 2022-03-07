@@ -12,6 +12,12 @@ function App() {
   const [toggleAddReflection, setToggleAddReflection]= useState(false)
   const addReflection = async(x) =>{
     console.log(x)
+    const res = await fetch ('http://localhost:5001/reflections',{
+      method: 'POST',
+      headers:{'Content-type':'application/json'},
+      body: JSON.stringify(x)
+
+    })
   }
   
    return (
