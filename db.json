@@ -6,6 +6,48 @@
       "productivity": "3",
       "notes": "sdkgejroidhlgbsmsrl",
       "id": 1
+    },
+    {
+      "day": "2022-03-07T20:43:56.813Z",
+      "dayScore": "4",
+      "productivity": "5",
+      "notes": "nbhu",
+      "id": 2
+    },
+    {
+      "day": "2022-03-02T06:00:00.000Z",
+      "dayScore": "3",
+      "productivity": "5",
+      "notes": "kjuioojop",
+      "id": 3
+    },
+    {
+      "day": "2022-03-01T06:00:00.000Z",
+      "dayScore": 0,
+      "productivity": 0,
+      "notes": "kdvfasvdk",
+      "id": 4
+    },
+    {
+      "day": "2022-03-07T21:07:35.105Z",
+      "dayScore": "4",
+      "productivity": 0,
+      "notes": "dvas",
+      "id": 5
+    },
+    {
+      "day": "2022-03-07T21:08:22.116Z",
+      "dayScore": 1,
+      "productivity": 1,
+      "notes": "fdavs ",
+      "id": 6
+    },
+    {
+      "day": "2022-03-07T21:09:22.454Z",
+      "dayScore": 1,
+      "productivity": 1,
+      "notes": "efgsdgtws",
+      "id": 7
     }
   ]
 }

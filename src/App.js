@@ -33,7 +33,7 @@ function App() {
         element ={
           <>
           {toggleAddReflection && <AddReflection onAdd={addReflection}/>}
-          <img src={logo} className="App-logo" alt="logo" />
+          {toggleAddReflection && <img src={logo} className="App-logo" alt="logo" />}
           </>
           }/>
       <Route path='/about' element ={<About/>}/>

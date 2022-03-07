@@ -3,9 +3,9 @@ import DatePicker from 'react-date-picker';
 
 const AddReflection = ({onAdd}) => {
   const [day,setDay] = useState(new Date())
-  const [productivity, setProductivity] = useState(0)
+  const [productivity, setProductivity] = useState(1)
   const [notes, setNotes] = useState('')
-  const [dayScore,setDayScore] = useState(0)
+  const [dayScore,setDayScore] = useState(1)
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -13,7 +13,8 @@ const AddReflection = ({onAdd}) => {
       alert("Please insert comment.")
       return
     }
-    
+
+
     onAdd({day,dayScore,productivity,notes})
 
     setDay(new Date())
