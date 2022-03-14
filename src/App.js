@@ -6,7 +6,9 @@ import Footer from './components/Footer';
 import About from "./components/About";
 import Header from "./components/Header"
 import AddReflection from './components/AddReflection/AddReflection';
-import SecondHeader from './components/Graphics/SecondHeader';
+import Chart from './components/Graphics/Chart1';
+import LineChart from './components/Graphics/LineChart';
+
 
 function App() {
   const [toggleAddReflection, setToggleAddReflection]= useState(false)
@@ -19,7 +21,6 @@ function App() {
 
     })
   }
-  
    return (
      <Router>
     <div className="container">
@@ -27,6 +28,8 @@ function App() {
       setToggle={() => setToggleAddReflection(!toggleAddReflection) }
       toggle={toggleAddReflection}
     />
+
+    
     <Routes>
       <Route 
         path='/'
@@ -39,7 +42,9 @@ function App() {
       <Route path='/about' element ={<About/>}/>
 
       </Routes>
+      <Chart/>
       <Footer/>
+
     </div>
     </Router>
   ); 
