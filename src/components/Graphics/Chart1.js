@@ -1,40 +1,34 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Chartjs from 'chart.js/auto';
+import ChartConfig1 from './ChartConfig1';
 
-const chartConfig = {
-  type: 'bar',
-  data: {
-    labels:['One','Two','Three'],
-    datasets:[
-        {
-            label:'Example',
-            data:[
-                1,
-                2,
-                3
-            ],
-            backgroundColor:[
-                'rgba(255,99,132,.06)',
-                'rgba(255,99,132,.06)',
-                'rgba(255,99,132,.06)'
-            ]
-        }
-    ]
+//NOT IN USE
 
-
-  },
-  options: {
-    // ...
-  }
-};
-
-const Chart1 = () => {
+const Chart1 = ({chartDayData}) => {
+  const a = chartDayData
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
 
-  useEffect(() => {
+/*   const [chartData, setChartData] = useState([]);
+  const chartElements = (serverData) =>{
+    //next line will probably need to be reworked & moved
+    setChartData(serverData);
+    const chartCon = {
+    type: 'line',
+    data: {
+      labels: chartData.map((x)=>(
+        day = x.day
+      )),
+    }
+  }
+}; */
+
+//will probably try and move most of this to the app level
+ useEffect(() => { 
     if (chartContainer && chartContainer.current) {
-      const newChartInstance = new Chartjs(chartContainer.current, chartConfig);
+      const b = ChartConfig1(a)
+      console.log(b+'fefsaas')
+      const newChartInstance = new Chartjs(chartContainer.current, b);
       setChartInstance(newChartInstance);
     }
   }, [chartContainer]);
