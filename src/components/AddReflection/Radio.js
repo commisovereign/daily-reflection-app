@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-
+//Currently not in use
 const Radio = () => {
     const [dayScore,setDayScore] = useState(0)
     const onSubmit = (e) => {
@@ -28,4 +28,4 @@ const Radio = () => {
 
 
 
-export default Radio({onSubmit});
+export default Radio;
