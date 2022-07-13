@@ -1,0 +1,39 @@
+{
+  "reflections": [
+    {
+      "day": "2022-03-07T20:23:16.674Z",
+      "dayScore": "4",
+      "productivity": "3",
+      "notes": "sdkgejroidhlgbsmsrl",
+      "id": 1
+    },
+    {
+      "day": "2022-03-07T20:43:56.813Z",
+      "dayScore": "4",
+      "productivity": "5",
+      "notes": "nbhu",
+      "id": 2
+    },
+    {
+      "day": "2022-03-02T06:00:00.000Z",
+      "dayScore": "3",
+      "productivity": "5",
+      "notes": "kjuioojop",
+      "id": 3
+    },
+    {
+      "day": "2022-03-17T05:00:00.000Z",
+      "dayScore": "3",
+      "productivity": "3",
+      "notes": "gmwm4eporg",
+      "id": 4
+    },
+    {
+      "day": "2022-03-08T06:00:00.000Z",
+      "dayScore": "2",
+      "productivity": 1,
+      "notes": "kknnkn",
+      "id": 5
+    }
+  ]
+}

@@ -6,7 +6,13 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "chart.js": "^3.7.1",
+    "json-server": "^0.17.0",
     "react": "^17.0.2",
+<<<<<<< HEAD
+=======
+    "react-chartjs-2": "^4.0.1",
+>>>>>>> 1ca1a983e5a5ff27a7afb087b5bd2dba9119e3ab
     "react-date-picker": "^8.4.0",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.1",
@@ -17,7 +23,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "json-server --watch db.json --port 5001"
   },
   "eslintConfig": {
     "extends": [
