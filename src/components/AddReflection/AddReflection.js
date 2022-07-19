@@ -7,7 +7,8 @@ const AddReflection = ({onAdd}) => {
   const [notes, setNotes] = useState('')
   const [dayScore,setDayScore] = useState(1)
 
-  const onSubmit = (e) => {
+  const onSubmit = (e) => 
+  {
     e.preventDefault()
     if (!notes){
       alert("Please insert comment.")

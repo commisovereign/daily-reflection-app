@@ -1,24 +1,23 @@
 
-const ChartConfig1 = (a) => {
-    console.log(a+'xyz')
+const ChartConfig1 = (date,dayScore) => {
+
 
     const chartConfig = {
         type: 'line',
         data: {
-          labels:a,
+          labels: date,
+
           datasets:[
               {
-                  label:'Example',
-                  data:[
-                      1,
-                      2,
-                      3
-                  ],
+                  label:"Day Scores Over Time",
+                  data: dayScore,
+
                   backgroundColor:[
-                      'red',
-                      'green',
-                      'rgba(255,99,132,.06)'
-                  ]
+                      'purple'
+                  ],
+                  borderColor:['black']
+                  
+                  
               }
           ]
       
