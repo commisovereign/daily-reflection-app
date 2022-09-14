@@ -2,8 +2,11 @@ import { Link } from "react-router-dom"
 const About = () => {
     return(
         <div>
-            &copy;2022 Version 0.0.1
-            <Link to="/">Go Back</Link>
+            Creator: Zaid Nolley
+            <br/>
+            &copy;2022 Version 0.0.2
+            <br/>
+            <Link to="/">Return to Menu</Link>
         </div>
     )
 }

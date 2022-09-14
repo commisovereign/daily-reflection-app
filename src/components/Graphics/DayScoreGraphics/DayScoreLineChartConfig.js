@@ -1,5 +1,5 @@
 
-const ChartConfig1 = (date,dayScore) => {
+const DayScoreLineChartConfig = (date,dayScore) => {
 
 
     const chartConfig = {
@@ -31,4 +31,4 @@ const ChartConfig1 = (date,dayScore) => {
 }
 
 
-export default ChartConfig1
+export default DayScoreLineChartConfig

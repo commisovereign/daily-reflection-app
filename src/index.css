@@ -67,7 +67,19 @@ code {
   align-items: center;
   margin-bottom: 20px;
 }
-
+.side-menu{
+  height: 100%;
+  position: absolute;
+  display:block;
+  width: 17%;
+  background-color: orange;
+  margin-right: 5%;
+}
+.add-reflection{
+  position: relative;
+  /*margin-left:25%;*/
+  
+}
 .btn {
   display: inline-block;
 

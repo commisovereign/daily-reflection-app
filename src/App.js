@@ -6,12 +6,12 @@ import Footer from './components/Footer';
 import About from "./components/About";
 import Header from "./components/Header"
 import AddReflection from './components/AddReflection/AddReflection';
-import Chart1 from './components/Graphics/Chart1';
+import Chart1 from './components/Graphics/DayScoreGraphics/DayScoreChart';
+import MenuSideBar from './components/MenuSideBar';
 
-//probably will use useEffect() to update charts right after a submission
 function App() {
-  const [toggleAddReflection, setToggleAddReflection]= useState(false)
-  const [reflections,setReflections] = useState([])
+  const [toggleAddReflection, setToggleAddReflection]= useState(false);
+  const [reflections,setReflections] = useState([]);
 
   const addReflection = async(x) =>{
     const res = await fetch ('http://localhost:5001/reflections',{
@@ -32,6 +32,7 @@ function App() {
       setToggle={() => setToggleAddReflection(!toggleAddReflection) }
       toggle={toggleAddReflection}
     />
+    
 
     
     <Routes>

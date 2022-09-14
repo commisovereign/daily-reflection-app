@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Chartjs from 'chart.js/auto';
-import ChartConfig1 from './ChartConfig1';
+import DayScoreLineChartConfig from './DayScoreLineChartConfig';
 
-//NOT IN USE
+
 
 const Chart1 = ({chartDayData}) => {
 
@@ -14,18 +14,19 @@ const Chart1 = ({chartDayData}) => {
     const res = await fetch('http://localhost:5001/reflections');
     const data = await res.json();
     reflects.current = await data;
-    console.log(data)
-    console.log(reflects.current)
-    return data
+    //sorts reflections by date in ascending order
+    reflects.current = reflects.current.map(({day,dayScore,productivity,notes,id})=>{
+      day = day.slice(0,10).replace(/-/g,'');
+      return {day,dayScore,productivity,notes,id}}
+    ).sort((x,y)=>x.day -y.day);
+
+    return data;
   }
   const getDaysForGraph = async () =>{
-    await fetchDataForGraph()
-    var a = reflects.current.map((x)=>x.day);
-    var date = [];
-    for(let day in a){
-      date.push(a[day].slice(0,10));
-    }
-    return date;
+    await fetchDataForGraph();
+    var fullDates = reflects.current.map((x)=>x.day);
+    fullDates = fullDates.map((a)=>a.slice(0, 4) + "/" + a.slice(4, 6) + "/" + a.slice(6, 8));
+    return fullDates;
   }
   const getDayScoreForGraph = async () =>{
     await fetchDataForGraph()
@@ -38,7 +39,7 @@ const Chart1 = ({chartDayData}) => {
       if (chartContainer && chartContainer.current) {
         const days = await getDaysForGraph()
         const dayScore = await getDayScoreForGraph();
-        const chartConfig = ChartConfig1(days,dayScore);
+        const chartConfig = DayScoreLineChartConfig(days,dayScore);
         const newChartInstance = new Chartjs(chartContainer.current, chartConfig);
         setChartInstance(newChartInstance);
       }
