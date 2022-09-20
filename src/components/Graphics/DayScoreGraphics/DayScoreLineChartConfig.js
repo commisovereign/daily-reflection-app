@@ -1,7 +1,5 @@
 
 const DayScoreLineChartConfig = (date,dayScore) => {
-
-
     const chartConfig = {
         type: 'line',
         data: {

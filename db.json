@@ -76,6 +76,13 @@
       "productivity": "4",
       "notes": "ofpds",
       "id": 11
+    },
+    {
+      "day": "2022-09-20T17:36:13.053Z",
+      "dayScore": "3",
+      "productivity": "4",
+      "notes": "Added Productivity Graph",
+      "id": 12
     }
   ]
 }

@@ -34,7 +34,7 @@ const Chart1 = ({chartDayData}) => {
     return feels;
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     const makeChart = async () =>{
       if (chartContainer && chartContainer.current) {
         const days = await getDaysForGraph()
@@ -48,7 +48,7 @@ const Chart1 = ({chartDayData}) => {
   }, [chartContainer])
   return (
     <div> 
-      <canvas ref={chartContainer} /> 
+      <canvas id='dayScoreChart' ref={chartContainer} /> 
     </div>);
 
 

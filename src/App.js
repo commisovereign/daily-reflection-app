@@ -6,8 +6,9 @@ import Footer from './components/Footer';
 import About from "./components/About";
 import Header from "./components/Header"
 import AddReflection from './components/AddReflection/AddReflection';
-import Chart1 from './components/Graphics/DayScoreGraphics/DayScoreChart';
+import DayScoreChart from './components/Graphics/DayScoreGraphics/DayScoreChart';
 import MenuSideBar from './components/MenuSideBar';
+import ProductivityChart from './components/Graphics/ProductivityLineChart';
 
 function App() {
   const [toggleAddReflection, setToggleAddReflection]= useState(false);
@@ -32,9 +33,9 @@ function App() {
       setToggle={() => setToggleAddReflection(!toggleAddReflection) }
       toggle={toggleAddReflection}
     />
+    <MenuSideBar/>
     
 
-    
     <Routes>
       <Route 
         path='/'
@@ -42,7 +43,8 @@ function App() {
           <>
           {toggleAddReflection && <AddReflection onAdd={addReflection}/>}
           {toggleAddReflection && <img src={BearPicture} className="App-logo" alt="logo" />}
-          {<Chart1/>}
+          {<DayScoreChart/>}
+          {<ProductivityChart/>}
           </>
           }/>
       <Route path='/about' element ={<About/>}/>
