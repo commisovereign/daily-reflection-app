@@ -13,6 +13,7 @@ import ProductivityChart from './components/Graphics/ProductivityLineChart';
 function App() {
   const [toggleAddReflection, setToggleAddReflection]= useState(false);
   const [reflections,setReflections] = useState([]);
+  const [style,setStyle] = useState(false);
 
   const addReflection = async(x) =>{
     const res = await fetch ('http://localhost:5001/reflections',{
@@ -24,7 +25,6 @@ function App() {
     const data = await res.json()
     setReflections([...reflections,data])
   }
-  
 
   return (
     <Router>
@@ -33,15 +33,15 @@ function App() {
       setToggle={() => setToggleAddReflection(!toggleAddReflection) }
       toggle={toggleAddReflection}
     />
-    <MenuSideBar/>
-    
-
+    <MenuSideBar
+      setSide ={() => setStyle(!style)}
+    />
     <Routes>
       <Route 
         path='/'
         element ={
           <>
-          {toggleAddReflection && <AddReflection onAdd={addReflection}/>}
+          {toggleAddReflection && <AddReflection onAdd={addReflection} sideStyle = {style ? "add-reflection-side-bar":"add-reflection"} />}
           {toggleAddReflection && <img src={BearPicture} className="App-logo" alt="logo" />}
           {<DayScoreChart/>}
           {<ProductivityChart/>}

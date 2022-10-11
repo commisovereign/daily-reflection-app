@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import DatePicker from 'react-date-picker';
 
-const AddReflection = ({onAdd}) => {
+const AddReflection = ({onAdd,sideStyle}) => {
   const [day,setDay] = useState(new Date())
   const [productivity, setProductivity] = useState(1)
   const [notes, setNotes] = useState('')
@@ -25,7 +25,7 @@ const AddReflection = ({onAdd}) => {
   
   }
   return(
-    <form className='add-reflection' onSubmit={onSubmit}>
+    <form className={sideStyle} onSubmit={onSubmit}>
       <DatePicker onChange={setDay} value ={day} maxDate= {new Date()}/>
       <div>
       How did you feel today (1-5)?

@@ -58,6 +58,7 @@ code {
 .container {
   align-items: center;
 
+
 }
 
 .header {
@@ -70,8 +71,12 @@ code {
 
 .add-reflection{
   position: relative;
-  /*margin-left:25%;*/
+  background-color: aquamarine;
   
+}
+.add-reflection-side-bar{
+  background-color: maroon;
+  margin-left:17%;
 }
 .btn {
   display: inline-block;
