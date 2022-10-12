@@ -1,10 +1,13 @@
 import propTypes from 'prop-types'
-
+import { Link } from 'react-router-dom';
 const AccountButton = () => {
-  return( 
+  return(
+    <Link to ='/AccountPage'>
   <button
   className='btn'
-  >{"Account"}</button>)
+  >{"Account"}</button>
+  </Link>
+  )
 };
 
 AccountButton.defaultProps ={color:"green"}

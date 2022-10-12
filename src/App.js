@@ -9,6 +9,7 @@ import AddReflection from './components/AddReflection/AddReflection';
 import DayScoreChart from './components/Graphics/DayScoreGraphics/DayScoreChart';
 import MenuSideBar from './components/MenuSideBar';
 import ProductivityChart from './components/Graphics/ProductivityLineChart';
+import AccountPage from './components/AccountPage';
 
 function App() {
   const [toggleAddReflection, setToggleAddReflection]= useState(false);
@@ -48,7 +49,7 @@ function App() {
           </>
           }/>
       <Route path='/about' element ={<About/>}/>
-
+      <Route path ='/AccountPage' element={<AccountPage/>}/>
       </Routes>
 
       <Footer/>
