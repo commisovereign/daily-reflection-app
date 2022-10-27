@@ -9,30 +9,31 @@ const ProductivityLineChart = () =>{
   const [chartInstance1, setChartInstance1] = useState(null);
   
   const fetchDataForGraph = async () =>{
-    const res = await fetch('http://localhost:5001/reflections');
+    const res = await fetch('http://localhost:5002/api/get');
     const data = await res.json();
+
     reflects.current = await data;
     //sorts reflections by date in ascending order
-    reflects.current = reflects.current.map(({day,dayScore,productivity,notes,id})=>{
-      day = day.slice(0,10).replace(/-/g,'');
-      return {day,dayScore,productivity,notes,id}}
-    ).sort((x,y)=>x.day -y.day);
+    reflects.current = reflects.current.map(({idreflections,dates,dayScore,productivityScore,notes})=>{
+      dates = dates.slice(0,10).replace(/-/g,'');
+      return {idreflections,dates,dayScore,productivityScore,notes}}
+    ).sort((x,y)=>x.dates -y.dates);
 
     return data;
   }
   const getDatesForGraph = async () =>{
     await fetchDataForGraph();
-    var fullDates = reflects.current.map((x)=>x.day);
+    var fullDates = reflects.current.map((x)=>x.dates);
     fullDates = fullDates.map((a)=>a.slice(0, 4) + "/" + a.slice(4, 6) + "/" + a.slice(6, 8));
     return fullDates;
   }
   const getProductivityScoreForGraph = async () =>{
     await fetchDataForGraph()
-    const prod = reflects.current.map((x)=>x.productivity);
+    const prod = reflects.current.map((x)=>x.productivityScore);
     return prod;
   }
   useEffect(() => { 
-    const makeChart1 = async () =>{
+    const makeChart = async () =>{
       if (chartContainer1 && chartContainer1.current) {
         const days = await getDatesForGraph()
         const productivity = await getProductivityScoreForGraph();
@@ -41,7 +42,7 @@ const ProductivityLineChart = () =>{
         setChartInstance1(newChartInstance1);
       }
     }
-    makeChart1()
+    makeChart()
   }, [chartContainer1])
 
     return(

@@ -1,6 +1,6 @@
 
 import BearPicture from './images/appleBear.jpg';
-import { useState, useEffect, useRef } from 'react'
+import { useState} from 'react'
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Footer from './components/Footer';
 import About from "./components/About";
@@ -17,7 +17,7 @@ function App() {
   const [style,setStyle] = useState(false);
 
   const addReflection = async(x) =>{
-    const res = await fetch ('http://localhost:5001/reflections',{
+    const res = await fetch ('http://localhost:5002/api/insert',{
       method: 'POST',
       headers:{'Content-type':'application/json'},
       body: JSON.stringify(x)
@@ -43,7 +43,6 @@ function App() {
         element ={
           <>
           {toggleAddReflection && <AddReflection onAdd={addReflection} sideStyle = {style ? "add-reflection-side-bar":"add-reflection"} />}
-          {toggleAddReflection && <img src={BearPicture} className="App-logo" alt="logo" />}
           {<DayScoreChart/>}
           {<ProductivityChart/>}
           </>
