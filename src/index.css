@@ -91,3 +91,9 @@ code {
   font-size: 15px;
   font-family: inherit;
 }
+.reflection-list{
+  background: #abc8c9;
+  margin: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}

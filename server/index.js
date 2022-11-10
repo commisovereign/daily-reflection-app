@@ -14,13 +14,7 @@ app.use(cors());
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended:true}));
 
-/*app.get("/",(req,res)=>{
-    const sqlInsert = "INSERT INTO reflections ( dates, dayScore, productivityScore, notes) VALUES ('2022-07-19T19:59:41.581Z', 3, 4, 'dsfdsa');";
-    db.query(sqlInsert,(err,result)=>{
-        console.log(err)
-        res.send("Hello")
-    })
-})*/
+
 app.get('/api/get', (req,res)=>{
     const sqlSelect = "SELECT * FROM reflections";
     db.query(sqlSelect, (err, result)=>

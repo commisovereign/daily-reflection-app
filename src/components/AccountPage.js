@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { useState } from 'react'
 const AccountPage = () => {
   const [loggedIn,setLoggedIn] = useState(true);
@@ -10,6 +9,7 @@ const AccountPage = () => {
       <h3>Log In</h3>
       <input placeholder='Email'>
       </input>
+      <br/>
       <input placeholder='Password' type='password'>
       </input>
     </div>}

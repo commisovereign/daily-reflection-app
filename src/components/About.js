@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import BearPicture from 'C:/Users/zaidn/daily-reflection-app/src/images/appleBear.jpg';
+import BearPicture from '../images/appleBear.jpg';
 const About = () => {
     return(
         <div>

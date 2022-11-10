@@ -1,55 +1,39 @@
 import React, { useEffect, useRef ,useState } from 'react';
-import Chartjs from 'chart.js/auto';
+import Chart from 'chart.js/auto';
 import ProductivityLineChartConfig from "./ProductivityLineChartConfig";
 
 const ProductivityLineChart = () =>{
     
-  const reflects = useRef(null);
-  const chartContainer1 = useRef(null);
-  const [chartInstance1, setChartInstance1] = useState(null);
-  
-  const fetchDataForGraph = async () =>{
-    const res = await fetch('http://localhost:5002/api/get');
-    const data = await res.json();
+  const chartContainer = useRef(null);
 
-    reflects.current = await data;
-    //sorts reflections by date in ascending order
-    reflects.current = reflects.current.map(({idreflections,dates,dayScore,productivityScore,notes})=>{
-      dates = dates.slice(0,10).replace(/-/g,'');
-      return {idreflections,dates,dayScore,productivityScore,notes}}
-    ).sort((x,y)=>x.dates -y.dates);
-
-    return data;
-  }
-  const getDatesForGraph = async () =>{
-    await fetchDataForGraph();
-    var fullDates = reflects.current.map((x)=>x.dates);
-    fullDates = fullDates.map((a)=>a.slice(0, 4) + "/" + a.slice(4, 6) + "/" + a.slice(6, 8));
-    return fullDates;
-  }
-  const getProductivityScoreForGraph = async () =>{
-    await fetchDataForGraph()
-    const prod = reflects.current.map((x)=>x.productivityScore);
-    return prod;
-  }
-  useEffect(() => { 
+  useEffect(() => {
+    
     const makeChart = async () =>{
-      if (chartContainer1 && chartContainer1.current) {
-        const days = await getDatesForGraph()
-        const productivity = await getProductivityScoreForGraph();
-        const chartConfig1 = ProductivityLineChartConfig(days,productivity);
-        const newChartInstance1 = new Chartjs(chartContainer1.current, chartConfig1);
-        setChartInstance1(newChartInstance1);
+      const res = await fetch('http://localhost:5002/api/get');
+      const data = await res.json();
+          //sorts reflections by date in ascending order
+      const sortedRefs = await data.map(({idreflections,dates,dayScore,productivityScore,notes})=>{
+        dates = dates.slice(0,10).replace(/-/g,'');
+        return {idreflections,dates,dayScore,productivityScore,notes}}
+      ).sort((x,y)=>x.dates -y.dates);
+          //Adds slashes to dates
+      const fullDates = await sortedRefs.map((x)=>x.dates).map((a)=>a.slice(0, 4) + "/" + a.slice(4, 6) + "/" + a.slice(6, 8));
+          // takes the sorted productivity score 
+      const prod = await sortedRefs.map((x)=>x.productivityScore);
+
+      if (chartContainer && chartContainer.current) {
+        const chartConfig = ProductivityLineChartConfig(fullDates,prod);
+        const newChartInstance = new Chart(chartContainer.current, chartConfig);
       }
     }
     makeChart()
-  }, [chartContainer1])
+  }, [chartContainer])
 
     return(
         <div>
 
             <canvas id='productivityScoreChart1' 
-            ref={chartContainer1}>
+            ref={chartContainer}>
             </canvas> 
 
         </div>
