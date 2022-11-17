@@ -23,6 +23,7 @@ const DayScoreLineChartConfig = (date,dayScore) => {
         },
         options: {
           maintainAspectRatio:false
+          
         }
       };
   return chartConfig;

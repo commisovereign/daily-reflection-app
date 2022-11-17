@@ -2,15 +2,13 @@ import React, { useEffect, useRef ,useState } from 'react';
 import Chart from 'chart.js/auto';
 import ProductivityLineChartConfig from "./ProductivityLineChartConfig";
 
-const ProductivityLineChart = () =>{
+const ProductivityLineChart = ({reflections}) =>{
     
   const chartContainer = useRef(null);
 
   useEffect(() => {
-    
     const makeChart = async () =>{
-      const res = await fetch('http://localhost:5002/api/get');
-      const data = await res.json();
+      const data = await reflections;
           //sorts reflections by date in ascending order
       const sortedRefs = await data.map(({idreflections,dates,dayScore,productivityScore,notes})=>{
         dates = dates.slice(0,10).replace(/-/g,'');

@@ -2,17 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import DayScoreLineChartConfig from './DayScoreLineChartConfig';
 
-
-
-const Chart1 = () => {
+const Chart1 = ({reflections}) => {
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   
+  const getReflections = async()=>{
+    const data = await reflections;
+    return data;
+  }
 
   useEffect(() => {
     const makeChart = async () =>{
-      const res = await fetch('http://localhost:5002/api/get');
-      const data = await res.json();
+      const data = await getReflections()
       const sortedDates = await data.map(({idreflections,dates,dayScore,productivityScore,notes})=>{
         dates = dates.slice(0,10).replace(/-/g,'');
         return {idreflections,dates,dayScore,productivityScore,notes}}
@@ -23,15 +24,16 @@ const Chart1 = () => {
       if (chartContainer && chartContainer.current) {
         const chartConfig = DayScoreLineChartConfig(fullDates,feels);
         const newChartInstance = new Chart(chartContainer.current, chartConfig);
-        //setChartInstance(newChartInstance);
+        setChartInstance(newChartInstance);
       }
     }
     makeChart()
   }, [chartContainer])
   return (
-    <div> 
+    <div>
       <canvas id='dayScoreChart' ref={chartContainer} /> 
-    </div>);
+    </div>
+    );
 
  /* const a = chartDayData
   const chartContainer = useRef(null);

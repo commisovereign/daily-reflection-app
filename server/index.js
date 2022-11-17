@@ -21,6 +21,18 @@ app.get('/api/get', (req,res)=>{
         res.send(result));
 })
 
+app.delete('/api/delete/:idreflections',(req,res)=>{
+    //const id = "SELECT FROM reflections WHERE idreflections ="
+    const refID = req.params.idreflections;
+    const sqlDelete = "DELETE FROM reflections WHERE idreflections = ?";
+
+    db.query(sqlDelete, refID, (err,result)=>{
+        console.log(err);
+        console.log(result)
+    }
+    )
+})
+
 app.post("/api/insert",(req, res)=>{
     //the consts take the variable names as theyre listed in AddReflection.js
     const dates = req.body.day;

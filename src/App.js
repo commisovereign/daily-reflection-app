@@ -1,5 +1,4 @@
 
-import BearPicture from './images/appleBear.jpg';
 import { useState, useEffect} from 'react'
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Footer from './components/Footer';
@@ -11,6 +10,7 @@ import MenuSideBar from './components/MenuSideBar';
 import ProductivityChart from './components/Graphics/ProductivityLineChart';
 import AccountPage from './components/AccountPage';
 import MapReflections from './components/MapReflectionList';
+import TestChart from './components/Graphics/TestChart'
 
 function App() {
   const [toggleAddReflection, setToggleAddReflection]= useState(false);
@@ -23,7 +23,7 @@ function App() {
       setReflections(reflectionsfromServer)
     }
     getReflections()
-  },[])
+  },[reflections])
 
   const fetchReflections = async () =>{
     const res = await fetch ('http://localhost:5002/api/get');
@@ -40,6 +40,12 @@ function App() {
     const data = await res.json()
     setReflections([...reflections,data])
   }
+  const deleteReflection = async(id) =>{
+
+    await fetch (`http://localhost:5002/api/delete/${id}`, {method: 'DELETE'});
+    setReflections(reflections.filter((ref)=>ref.idreflections !== id));
+  }
+
 
   return (
     <Router>
@@ -57,14 +63,15 @@ function App() {
         element ={
           <>
           {toggleAddReflection && <AddReflection onAdd={addReflection} sideStyle = {style ? "add-reflection-side-bar":"add-reflection"} />}
-          {<DayScoreChart/>}
-          {<ProductivityChart/>}
+          {(reflections.length > 0) && <DayScoreChart  reflections={reflections}/>}
+          {(reflections.length > 0) && <ProductivityChart reflections={reflections}/>}
+          {<TestChart/>}
           </>
           }/>
       <Route path='/about' element ={<About/>}/>
       <Route path ='/AccountPage' element={<AccountPage/>}/>
       <Route path ='/Submissions' element={
-        <MapReflections reflections={reflections}/>}
+        <MapReflections reflections={reflections} onDelete ={deleteReflection}/>}
       />
       </Routes>
 

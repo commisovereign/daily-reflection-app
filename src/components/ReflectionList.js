@@ -1,11 +1,17 @@
 import React from 'react'
+import { FaTimes } from 'react-icons/fa';
 
-const ReflectionList = ({reflection}) => {
+const ReflectionList = ({reflection,onDelete}) => {
   return (
     <div className='reflection-list'>
 
         <h3>
-            {'Felt: '}{reflection.dayScore}
+            {'Felt: '}{reflection.dayScore}{' '}
+            <FaTimes style={
+              { color:'red',cursor:'pointer'}
+            }
+            onClick ={()=>onDelete(reflection.idreflections)}
+            />
         </h3>
         <h3>
             {'Productivity: '}
@@ -17,6 +23,10 @@ const ReflectionList = ({reflection}) => {
         </p>
         <p>
           {reflection.dates}
+        </p>
+        <p>
+          {'ID: '}
+          {reflection.idreflections}
         </p>
     </div>
   )
