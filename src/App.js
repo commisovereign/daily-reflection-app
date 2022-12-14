@@ -8,7 +8,7 @@ import AddReflection from './components/AddReflection/AddReflection';
 import DayScoreChart from './components/Graphics/DayScoreGraphics/DayScoreChart';
 import MenuSideBar from './components/MenuSideBar';
 import ProductivityChart from './components/Graphics/ProductivityLineChart';
-import AccountPage from './components/AccountPage';
+import AccountPage from './components/Account/AccountPage';
 import MapReflections from './components/MapReflectionList';
 import TestChart from './components/Graphics/TestChart'
 
@@ -23,7 +23,7 @@ function App() {
       setReflections(reflectionsfromServer)
     }
     getReflections()
-  },[reflections])
+  },[])
 
   const fetchReflections = async () =>{
     const res = await fetch ('http://localhost:5002/api/get');
@@ -49,6 +49,7 @@ function App() {
 
   return (
     <Router>
+          
     <div className="container">
     <Header
       setToggle={() => setToggleAddReflection(!toggleAddReflection) }
@@ -58,6 +59,7 @@ function App() {
       setSide ={() => setStyle(!style)}
     />
     <Routes>
+
       <Route 
         path='/'
         element ={
@@ -73,10 +75,10 @@ function App() {
       <Route path ='/Submissions' element={
         <MapReflections reflections={reflections} onDelete ={deleteReflection}/>}
       />
+      
       </Routes>
 
       <Footer/>
-
     </div>
     </Router>
   ); 

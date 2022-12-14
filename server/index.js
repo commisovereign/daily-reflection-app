@@ -10,16 +10,43 @@ const db = mysql.createPool({
     password:"password",
     database:"reflectionsdatabase",
 });
-app.use(cors());
-app.use(express.json())
-app.use(bodyParser.urlencoded({extended:true}));
 
+app.use(cors());
+app.use(express.json());
+app.use(bodyParser.urlencoded({extended:true}));
+/*app.use('/AccountPage',(req,res)=>{
+    res.send({
+        token:'test123'
+    });
+});*/
 
 app.get('/api/get', (req,res)=>{
     const sqlSelect = "SELECT * FROM reflections";
     db.query(sqlSelect, (err, result)=>
         res.send(result));
 })
+
+//temporary user data request method
+app.post('/api/users',(req,res)=>{
+    const email = req.body.email
+    const password = req.body.pw
+    db.query(
+        "SELECT * FROM users WHERE email = ? AND password = ?",
+        [email,password],
+        (err, result)=>{
+            if(err){
+                res.send({err:err});
+            }
+            if(result.length >0){
+                res.send(result);
+            }
+            else{
+                res.send({message: "Wrong username/password"});
+            }
+
+    });
+});
+
 
 app.delete('/api/delete/:idreflections',(req,res)=>{
     //const id = "SELECT FROM reflections WHERE idreflections ="

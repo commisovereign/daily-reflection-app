@@ -33,13 +33,13 @@ const chartConfig = {
   },
   options: {
     scales: {
-      yAxes: [
+      /*yAxes: [
         {
           ticks: {
             beginAtZero: true
           }
         }
-      ]
+      ]*/
     }
   }
 };
