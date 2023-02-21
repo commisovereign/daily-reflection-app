@@ -6,7 +6,7 @@ const About = () => {
             <img src={BearPicture} className="App-logo" alt="logo" />
             Creator: Zaid Nolley
             <br/>
-            &copy;2022 Version 0.0.3
+            &copy;2023 Version 0.0.5
             <br/>
             <Link to="/">Return to Menu</Link>
         </div>

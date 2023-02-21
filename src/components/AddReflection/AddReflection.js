@@ -1,11 +1,12 @@
 import {useState} from 'react';
 import DatePicker from 'react-date-picker';
 
-const AddReflection = ({onAdd,sideStyle}) => {
+const AddReflection = ({onAdd,sideStyle,toggle}) => {
   const [day,setDay] = useState(new Date())
   const [productivity, setProductivity] = useState(1)
   const [notes, setNotes] = useState('')
   const [dayScore,setDayScore] = useState(1)
+
 
   const onSubmit = (e) => 
   {
@@ -25,8 +26,11 @@ const AddReflection = ({onAdd,sideStyle}) => {
   
   }
   return(
+    <div className={toggle ? 'add-reflection-div active':'add-reflection-div'}>
     <form className={sideStyle} onSubmit={onSubmit}>
+      <div>
       <DatePicker onChange={setDay} value ={day} maxDate= {new Date()}/>
+      </div>
       <div>
       How did you feel today (1-5)?
       <select value={dayScore} onChange={(e)=> setDayScore(e.target.value)}>
@@ -56,7 +60,7 @@ const AddReflection = ({onAdd,sideStyle}) => {
       </div>
       <input type='submit' value='Save Day'/>
     </form> 
-
+    </div>
   )
 };
 

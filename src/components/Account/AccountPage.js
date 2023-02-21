@@ -1,22 +1,17 @@
 import React from 'react'
-import { useState, useEffect, useRef, useContext } from 'react'
-import PropTypes from 'prop-types';
-import AuthContext from '../../context/AuthProvider';
-
-/*async function loginUser(credentials){
-  return fetch('http://localhost:5002/AccountPage',{
-    method:'POST',
-    headers:{
-      'Content-Type':'application/json'
-    },
-    body: JSON.stringify(credentials)
-  })
-  .then(data => data.json())
-}*/
+import { useState, useEffect, useRef } from 'react'
+import {Link, useNavigate, useLocation} from 'react-router-dom'
+import useAuth from '../../hooks/useAuth';
 
 
-const AccountPage = ({setToken}) => {
-  const {setAuth} = useContext(AuthContext)
+
+const AccountPage = () => {
+  const {setAuth} = useAuth()
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
+
   const userRef = useRef();
   const errRef = useRef();
   const [loggedIn,setLoggedIn] = useState(false);
@@ -28,7 +23,8 @@ const AccountPage = ({setToken}) => {
 
   useEffect(()=>{
     setErrMsg('');
-  },[email,pw])
+  },[loggedIn])
+
   useEffect(()=>{
     userRef.current.focus();
   },[])
@@ -36,6 +32,10 @@ const AccountPage = ({setToken}) => {
 
   const onLoginAttempt = async (e) =>{
     e.preventDefault();
+    if (!email || !pw) {
+        setErrMsg("Invalid Entry");
+        return;
+    }
 
     const response = await fetch ('http://localhost:5002/api/users',{
       method:'POST',
@@ -46,24 +46,37 @@ const AccountPage = ({setToken}) => {
     });
     const data = await response.json()
     console.log(data)
-    const accessToken = data?.accessToken;
-    setAuth({email,pw, accessToken})
-    setEmail('')
-    setPw('')
     if(!data.message){
+      //localStorage.setItem("token", data.token);
+
+      const accessToken = data?.token;
+      setAuth({email,pw, accessToken});
       setLoggedIn(true);
+      setEmail('');
+      setPw('');
+      //navigates to previous page that user attempted to access or home page
+      navigate(from, {replace:true});
     }
     else{
+      setErrMsg(data.message);
       errRef.current.focus();
     }
 
-    //const token = await loginUser({email, pw});
-    //setToken(token);
   }
+
+ const userAuthenticated = async() =>{
+    const response = await fetch('http://localhost:5002/userAuthInfo',{
+      headers:{
+        'x-access-token': localStorage.getItem("token"),},
+    })
+    const data = await response.json();
+    console.log(data);
+  }
+
   return (//the <p errRef> needs to be updated with css funct.
   <div className='login-page'>
-    <p ref={errRef}>{errMsg}</p>
     <form onSubmit={onLoginAttempt}>
+    <p ref={errRef}>{errMsg}</p>
       {!loggedIn &&<div>
         <h3>Please Log In</h3>
         <input placeholder='Email'
@@ -87,18 +100,25 @@ const AccountPage = ({setToken}) => {
         value='Log In'>
         </input>
       </div>}
+
     </form>
   {loggedIn &&<div>
     <h3>You're Logged In</h3>
       <button onClick={LogOut}>Log Out</button>
-      </div>
-      }
+      <button onClick={userAuthenticated}>Check if authenticated</button>
+  </div>}
+  
+  <p>
+    Already have an account?
+    <br/>
+    <span className='line'>
+    <Link to='/CreateAccount'><button>{"Create Account"}</button></Link>
+    </span>
+  </p>
   </div>
 
 
   )
 }
-/*AccountPage.propTypes ={
-  setToken:PropTypes.func.isRequired
-}*/
+
 export default AccountPage

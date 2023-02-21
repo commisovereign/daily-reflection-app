@@ -6,8 +6,10 @@
   display:flex;
 }
 .side-menu-bars{
+  position: fixed;
   font-size: 1.3rem;
   background: none;
+  z-index: 1;
 }
 .side-menu-bars :hover{
   color: black;
@@ -21,6 +23,7 @@
   width: 230px;
   background-color: rgb(128, 126, 148);
   transition: 900ms;
+  z-index: 1;
 }
 .side-navbar.active{
   transition: 200ms;

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import DayScoreLineChartConfig from './DayScoreLineChartConfig';
 
-const Chart1 = ({reflections}) => {
+const Chart1 = ({reflections, onUpdate}) => {
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   
@@ -10,17 +10,31 @@ const Chart1 = ({reflections}) => {
     const data = await reflections;
     return data;
   }
+  const sortDates = async()=>{
+    const data = await getReflections()
+    const sortedDates = await data.map(({idreflections,dates,dayScore,productivityScore,notes})=>{
+      dates = dates.slice(0,10).replace(/-/g,'');
+      return {idreflections,dates,dayScore,productivityScore,notes}}
+    ).sort((x,y)=>x.dates -y.dates);
+    var fullDates = await sortedDates.map((x)=>x.dates);
+    fullDates = await fullDates.map((a)=>a.slice(0, 4) + "/" + a.slice(4, 6) + "/" + a.slice(6, 8));
+    const feels = await sortedDates.map((x)=>x.dayScore);
+    return [fullDates,feels];
+  }
 
   useEffect(() => {
     const makeChart = async () =>{
-      const data = await getReflections()
+      /*const data = await getReflections()
       const sortedDates = await data.map(({idreflections,dates,dayScore,productivityScore,notes})=>{
         dates = dates.slice(0,10).replace(/-/g,'');
         return {idreflections,dates,dayScore,productivityScore,notes}}
       ).sort((x,y)=>x.dates -y.dates);
       var fullDates = await sortedDates.map((x)=>x.dates);
       fullDates = await fullDates.map((a)=>a.slice(0, 4) + "/" + a.slice(4, 6) + "/" + a.slice(6, 8));
-      const feels = await sortedDates.map((x)=>x.dayScore)
+      const feels = await sortedDates.map((x)=>x.dayScore)*/
+      const x = await sortDates();
+      var fullDates = x[0];
+      var feels = x[1];
       if (chartContainer && chartContainer.current) {
         const chartConfig = DayScoreLineChartConfig(fullDates,feels);
         const newChartInstance = new Chart(chartContainer.current, chartConfig);
@@ -29,10 +43,15 @@ const Chart1 = ({reflections}) => {
     }
     makeChart()
   }, [chartContainer])
+/*  const onButtonClick = ()=>{
+    chartInstance.data.datasets[0].data = [0,3,5,1,4]
+    chartInstance.update();
+  }*/
   return (
-    <div>
-      <canvas id='dayScoreChart' ref={chartContainer} /> 
-    </div>
+       <div className='chart'>
+        <canvas id='dayScoreChart' 
+        ref={chartContainer} /> 
+      </div>
     );
 
  /* const a = chartDayData

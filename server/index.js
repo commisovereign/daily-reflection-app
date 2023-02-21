@@ -3,6 +3,7 @@ const app = express();
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 
 const db = mysql.createPool({
     host: "localhost",
@@ -23,7 +24,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.get('/api/get', (req,res)=>{
     const sqlSelect = "SELECT * FROM reflections";
     db.query(sqlSelect, (err, result)=>
-        res.send(result));
+        res.json(result));
 })
 
 //temporary user data request method
@@ -38,15 +39,44 @@ app.post('/api/users',(req,res)=>{
                 res.send({err:err});
             }
             if(result.length >0){
-                res.send(result);
+
+                const id = result[0]?.idusers;
+                const token = jwt.sign({id},"jwtSecret",{
+                    //approximately 10 minutes
+                    expiresIn:600,
+                })
+                res.json({auth:true, token: token, result:result})
+                //res.send(result);
             }
             else{
-                res.send({message: "Wrong username/password"});
+                res.json({auth: false, message: "Wrong username/password "});
             }
 
     });
 });
 
+//verifyJWT is middleware to check if the user has the correct web token
+const verifyJWT = (req, res, next) =>{
+    const token  = req.headers['x-access-token'];
+    if(!token){
+        res.send('User needs a token');
+    }
+    else{
+        jwt.verify(token,'jwtSecret',(err, decoded)=>{
+            if(err){
+                res.json({auth:false, message:'Failed to authenticate'});
+            }
+            else{
+                req.userId  = decoded.userId;
+                next();
+            }
+        });
+    }
+};
+
+app.get('/userAuthInfo', verifyJWT, (req,res)=>{
+    res.json('Current user is authenticated');
+})
 
 app.delete('/api/delete/:idreflections',(req,res)=>{
     //const id = "SELECT FROM reflections WHERE idreflections ="
@@ -56,8 +86,26 @@ app.delete('/api/delete/:idreflections',(req,res)=>{
     db.query(sqlDelete, refID, (err,result)=>{
         console.log(err);
         console.log(result)
+        res.json();
     }
     )
+})
+
+app.post("/api/accountcreation",(req,res)=>{
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const sqlInsert = "INSERT INTO users ( email, password) VALUES (?, ?);"
+
+    db.query(sqlInsert,
+        [email,password],
+        (err,result)=>{
+                const token = jwt.sign({email},"jwtSecret",{
+                    //approximately 10 minutes
+                    expiresIn:600,
+                })
+                res.json({auth:true, token: token, result:result, message:"Success"})
+    })
 })
 
 app.post("/api/insert",(req, res)=>{
@@ -71,8 +119,9 @@ app.post("/api/insert",(req, res)=>{
 
 
     db.query(sqlInsert,[dates, dayScore, productivityScore, notes],(err, result)=>{
-        console.log(err);
-        console.log(result);
+            //console.log(err);
+            //console.log(result);
+            res.json(result);
     })
 })
 
