@@ -109,7 +109,7 @@ const AccountPage = () => {
   </div>}
   
   <p>
-    Already have an account?
+    Don't have an account yet?
     <br/>
     <span className='line'>
     <Link to='/CreateAccount'><button>{"Create Account"}</button></Link>

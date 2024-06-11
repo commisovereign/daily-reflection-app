@@ -49,6 +49,13 @@ const MenuSideBar = ({setSide}) => {
                         }> Submission Details</Link>
                     </li>
                     <li className="nav-text">
+                        <Link to = "/TestChart" onClick={()=>{
+                            showSideMenu()
+                            setSide()
+                        }
+                        }> Test Chart</Link>
+                    </li>
+                    <li className="nav-text">
                         <Link to = "/About" onClick={()=>{
                             showSideMenu()
                             setSide()

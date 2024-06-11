@@ -1,17 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef} from 'react';
 import Chart from 'chart.js/auto';
 import DayScoreLineChartConfig from './DayScoreLineChartConfig';
+import { getRelativePosition } from 'chart.js/helpers';
 
-const Chart1 = ({reflections, onUpdate}) => {
+
+const Chart1 = ({reflections}) => {
   const chartContainer = useRef(null);
-  const [chartInstance, setChartInstance] = useState(null);
+  //const [chartInstance, setChartInstance] = useState(null);
   
   const getReflections = async()=>{
     const data = await reflections;
     return data;
   }
   const sortDates = async()=>{
-    const data = await getReflections()
+    const data = await getReflections();
     const sortedDates = await data.map(({idreflections,dates,dayScore,productivityScore,notes})=>{
       dates = dates.slice(0,10).replace(/-/g,'');
       return {idreflections,dates,dayScore,productivityScore,notes}}
@@ -32,21 +34,25 @@ const Chart1 = ({reflections, onUpdate}) => {
       var fullDates = await sortedDates.map((x)=>x.dates);
       fullDates = await fullDates.map((a)=>a.slice(0, 4) + "/" + a.slice(4, 6) + "/" + a.slice(6, 8));
       const feels = await sortedDates.map((x)=>x.dayScore)*/
-      const x = await sortDates();
-      var fullDates = x[0];
-      var feels = x[1];
       if (chartContainer && chartContainer.current) {
+        const x = await sortDates();
+        var fullDates = x[0];
+        var feels = x[1];
+        
         const chartConfig = DayScoreLineChartConfig(fullDates,feels);
         const newChartInstance = new Chart(chartContainer.current, chartConfig);
-        setChartInstance(newChartInstance);
+        Object.assign(newChartInstance.options,{onClick:(e) =>{//gives XY Coords when graph is clicked on
+          const canvasPosition = getRelativePosition(e, newChartInstance);
+          const dataX = newChartInstance.scales.x.getValueForPixel(canvasPosition.x);
+          const dataY = newChartInstance.scales.y.getValueForPixel(canvasPosition.y);
+          console.log("X:"+dataX+" Y:"+dataY);}
+        });
+        //setChartInstance(newChartInstance);
       }
     }
     makeChart()
   }, [chartContainer])
-/*  const onButtonClick = ()=>{
-    chartInstance.data.datasets[0].data = [0,3,5,1,4]
-    chartInstance.update();
-  }*/
+
   return (
        <div className='chart'>
         <canvas id='dayScoreChart' 

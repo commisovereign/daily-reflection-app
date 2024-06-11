@@ -13,6 +13,7 @@ import CreateAccount from './components/Account/CreateAccount';
 import MapReflections from './components/MapReflectionList';
 import TestChart from './components/Graphics/TestChart';
 import RequireAuth from './components/RequireAuth';
+import UserTrends from './components/UserSummary';
 
 //import AuthContext from './context/AuthProvider';
 
@@ -54,7 +55,6 @@ function App() {
     await fetch (`http://localhost:5002/api/delete/${id}`, {method: 'DELETE'});
     setReflections(reflections.filter((ref)=>ref.idreflections !== id));
   }
-  console.log("rendered");
   return (
     <Router>
           
@@ -76,10 +76,11 @@ function App() {
             <AddReflection onAdd={addReflection} toggle = {toggleAddReflection} sideStyle = {style ? "add-reflection-side-bar":"add-reflection"} />
             {(reflections.length > 0) && <DayScoreChart  reflections={reflections}/>}
             {(reflections.length > 0) && <ProductivityChart reflections={reflections}/>}
-            {<TestChart/>}
+            {<UserTrends trends = {reflections}/>}
             </div>
           }/>
       </Route>
+      <Route path ='/TestChart' element ={<TestChart/>}/>
       <Route path='/about' element ={<About/>}/>
       <Route path ='/AccountPage' element={<AccountPage/>}/>
       <Route path ='/CreateAccount' element={<CreateAccount/>}/>
