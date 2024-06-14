@@ -5,8 +5,8 @@ import useAuth from '../../hooks/useAuth';
 
 
 
-const AccountPage = () => {
-  const {setAuth} = useAuth()
+const AccountPage = ({setLoggedInOnApp, setUserId }) => {
+  const {setAuth} = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,10 +48,13 @@ const AccountPage = () => {
     console.log(data)
     if(!data.message){
       //localStorage.setItem("token", data.token);
+      //localStorage.setItem("userid", data.idusers);
 
       const accessToken = data?.token;
       setAuth({email,pw, accessToken});
       setLoggedIn(true);
+      setUserId(data.result[0].idusers);
+      setLoggedInOnApp(true);
       setEmail('');
       setPw('');
       //navigates to previous page that user attempted to access or home page

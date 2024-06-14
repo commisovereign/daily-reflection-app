@@ -27,6 +27,22 @@ app.get('/api/get', (req,res)=>{
         res.json(result));
 })
 
+app.get('api/getDataByUser,', (req, res)=>{
+    userid = req.body.userid
+    db.query(
+        "SELECT * FROM reflections WHERE idusers = ?",
+        [userid],
+        (err, result)=>{
+            if(err){
+                res.send({err:err}); 
+            }
+            else{
+                res.json(result);
+            }
+        }
+    )
+})
+
 //temporary user data request method
 app.post('/api/users',(req,res)=>{
     const email = req.body.email
@@ -38,7 +54,7 @@ app.post('/api/users',(req,res)=>{
             if(err){
                 res.send({err:err});
             }
-            if(result.length >0){
+            if(result.length > 0){
 
                 const id = result[0]?.idusers;
                 const token = jwt.sign({id},"jwtSecret",{

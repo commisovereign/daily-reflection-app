@@ -21,6 +21,9 @@ function App() {
   const [toggleAddReflection, setToggleAddReflection]= useState(false);
   const [reflections,setReflections] = useState([]);
   const [style,setStyle] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [curUserId, setCurUserId] = useState('');
+
 
 
   useEffect(()=>{
@@ -31,6 +34,15 @@ function App() {
     }
     getReflections()
   },[])
+
+  useEffect(()=>{
+    if (loggedIn) {
+      const getUserId = () => {
+        console.log(curUserId);
+      };
+      getUserId();
+    }
+  },[loggedIn, curUserId])
 
   const fetchReflections = async () =>{
     const res = await fetch ('http://localhost:5002/api/get');
@@ -82,7 +94,7 @@ function App() {
       </Route>
       <Route path ='/TestChart' element ={<TestChart/>}/>
       <Route path='/about' element ={<About/>}/>
-      <Route path ='/AccountPage' element={<AccountPage/>}/>
+      <Route path ='/AccountPage' element={<AccountPage setLoggedInOnApp={setLoggedIn} setUserId ={setCurUserId}/>}/>
       <Route path ='/CreateAccount' element={<CreateAccount/>}/>
       <Route path ='/Submissions' element={
         <MapReflections reflections={reflections} onDelete ={deleteReflection}/>}

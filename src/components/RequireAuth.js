@@ -4,7 +4,7 @@ import useAuth from "../hooks/useAuth";
 const RequireAuth = () =>{
     const {auth} = useAuth();
     const location = useLocation();
-
+    
     return (
         //sends user to Account Page if theyre not authorized
         auth?.email
