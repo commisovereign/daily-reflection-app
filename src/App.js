@@ -61,7 +61,6 @@ function App() {
     })
     const post = await res.json();
     const data = await fetchReflections();
-    console.log(data);
     setReflections([]);
     setReflections(data);
   }
