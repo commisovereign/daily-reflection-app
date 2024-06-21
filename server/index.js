@@ -23,24 +23,27 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 app.get('/api/get', (req,res)=>{
     const sqlSelect = "SELECT * FROM reflections";
+
     db.query(sqlSelect, (err, result)=>
         res.json(result));
 })
 
-app.get('api/getDataByUser,', (req, res)=>{
-    userid = req.body.userid
+app.get('/api/get/:userId', (req, res)=>{
+    const userId = req.params.userId;
+    console.log(`Fetching reflections for user ID: ${userId}`);
     db.query(
-        "SELECT * FROM reflections WHERE idusers = ?",
-        [userid],
+        "SELECT * FROM reflectionsdatabase.reflections WHERE userId = ?",
+        [userId],
         (err, result)=>{
-            if(err){
-                res.send({err:err}); 
-            }
-            else{
+            if (err) {
+                console.error(`Error querying database: ${err}`);
+                res.send({ err: err });
+            } else {
+                console.log(`Query result: ${JSON.stringify(result)}`);
                 res.json(result);
             }
         }
-    )
+    );
 })
 
 //temporary user data request method
@@ -126,15 +129,16 @@ app.post("/api/accountcreation",(req,res)=>{
 
 app.post("/api/insert",(req, res)=>{
     //the consts take the variable names as theyre listed in AddReflection.js
+
+    const userId = req.body.userId;
     const dates = req.body.day;
     const dayScore = req.body.dayScore;
     const productivityScore = req.body.productivity;
     const notes = req.body.notes;
 
-    const sqlInsert = "INSERT INTO reflections ( dates, dayScore, productivityScore, notes) VALUES (?, ?, ?, ?);";
+    const sqlInsert = "INSERT INTO reflections (userId, dates, dayScore, productivityScore, notes) VALUES (?, ?, ?, ?, ?);";
 
-
-    db.query(sqlInsert,[dates, dayScore, productivityScore, notes],(err, result)=>{
+    db.query(sqlInsert,[userId, dates, dayScore, productivityScore, notes],(err, result)=>{
             //console.log(err);
             //console.log(result);
             res.json(result);

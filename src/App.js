@@ -27,13 +27,15 @@ function App() {
 
 
   useEffect(()=>{
+    if (loggedIn) {
     const getReflections = async () =>{
       const reflectionsfromServer = await fetchReflections()
       setReflections(reflectionsfromServer)
       //console.log(reflectionsfromServer)
     }
     getReflections()
-  },[])
+  }
+  },[loggedIn, curUserId])
 
   useEffect(()=>{
     if (loggedIn) {
@@ -45,7 +47,8 @@ function App() {
   },[loggedIn, curUserId])
 
   const fetchReflections = async () =>{
-    const res = await fetch ('http://localhost:5002/api/get');
+    const res = await fetch (`http://localhost:5002/api/get/${curUserId}`, {method: 'GET'});
+    console.log(res);
     const data = await res.json();
     return data
   }
@@ -85,10 +88,10 @@ function App() {
           path='/'
           element ={
             <div className='main-page'>
-            <AddReflection onAdd={addReflection} toggle = {toggleAddReflection} sideStyle = {style ? "add-reflection-side-bar":"add-reflection"} />
+            <AddReflection onAdd={addReflection} toggle = {toggleAddReflection} sideStyle = {style ? "add-reflection-side-bar":"add-reflection"} userId={curUserId} />
             {(reflections.length > 0) && <DayScoreChart  reflections={reflections}/>}
             {(reflections.length > 0) && <ProductivityChart reflections={reflections}/>}
-            {<UserTrends trends = {reflections}/>}
+            {(reflections.length > 0) && <UserTrends trends = {reflections}/>}
             </div>
           }/>
       </Route>

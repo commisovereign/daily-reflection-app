@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import DatePicker from 'react-date-picker';
 
-const AddReflection = ({onAdd,sideStyle,toggle}) => {
+const AddReflection = ({onAdd,sideStyle,toggle,userId}) => {
   const [day,setDay] = useState(new Date())
   const [productivity, setProductivity] = useState(1)
   const [notes, setNotes] = useState('')
@@ -16,8 +16,8 @@ const AddReflection = ({onAdd,sideStyle,toggle}) => {
       return
     }
 
-
-    onAdd({day,dayScore,productivity,notes})
+    onAdd({userId,day,dayScore,productivity,notes})
+    console.log("userId should be: "+userId);
 
     setDay(new Date())
     setProductivity(1)
