@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({extended:true}));
     });
 });*/
 
+//Previously used to retrieve entire reflection data set for all users
 app.get('/api/get', (req,res)=>{
     const sqlSelect = "SELECT * FROM reflections";
 
