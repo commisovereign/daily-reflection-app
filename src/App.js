@@ -34,6 +34,7 @@ function App() {
       //console.log(reflectionsfromServer)
     }
     getReflections()
+    fetchWeather()
   }
   },[loggedIn, curUserId])
 
@@ -45,6 +46,16 @@ function App() {
       getUserId();
     }
   },[loggedIn, curUserId])
+
+  const fetchWeather = async () =>{
+    //minneapolis weather
+    const res = await fetch("https://api.weather.gov/points/44.9778,-93.2650", {method: "GET"});
+    const data = await res.json();
+    const mspForecast = await fetch(data.properties.forecast, {method: "GET"});
+    const data1 = await mspForecast.json();
+    console.log(data1.properties.periods[0].detailedForecast);
+
+  }
 
   const fetchReflections = async () =>{
     const res = await fetch (`http://localhost:5002/api/get/${curUserId}`, {method: 'GET'});
