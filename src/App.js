@@ -23,7 +23,7 @@ function App() {
   const [style,setStyle] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [curUserId, setCurUserId] = useState('');
-
+  const [weather, setWeather] = useState('');
 
 
   useEffect(()=>{
@@ -33,8 +33,12 @@ function App() {
       setReflections(reflectionsfromServer)
       //console.log(reflectionsfromServer)
     }
+    const getWeather = async()=>{
+      const weatherFromAPI = await fetchWeather();
+      setWeather(weatherFromAPI);
+    }
     getReflections()
-    fetchWeather()
+    getWeather()
   }
   },[loggedIn, curUserId])
 
@@ -54,7 +58,7 @@ function App() {
     const mspForecast = await fetch(data.properties.forecast, {method: "GET"});
     const data1 = await mspForecast.json();
     console.log(data1.properties.periods[0].detailedForecast);
-
+    return data1.properties.periods[0].detailedForecast;
   }
 
   const fetchReflections = async () =>{
@@ -101,7 +105,10 @@ function App() {
             {(reflections.length > 0) && <DayScoreChart  reflections={reflections}/>}
             {(reflections.length > 0) && <ProductivityChart reflections={reflections}/>}
             {(reflections.length > 0) && <UserTrends trends = {reflections}/>}
+            <div className='weather'> {"Weather in Minneapolis MN: "}{<p>{weather}</p>} </div>
+
             </div>
+            
           }/>
       </Route>
       <Route path ='/TestChart' element ={<TestChart/>}/>
