@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import {Link, useNavigate, useLocation} from 'react-router-dom'
 import useAuth from '../../hooks/useAuth';
+import { wait } from '@testing-library/user-event/dist/utils';
 
 
 
@@ -29,6 +30,11 @@ const AccountPage = ({setLoggedInOnApp, setUserId }) => {
     userRef.current.focus();
   },[])
 
+//Used for faster login for development & testing
+  const autoLogin = async (e) =>{
+    setEmail("johnsmith@gmail.com");
+    setPw("password");
+  }
 
   const onLoginAttempt = async (e) =>{
     e.preventDefault();
@@ -118,8 +124,15 @@ const AccountPage = ({setLoggedInOnApp, setUserId }) => {
     <Link to='/CreateAccount'><button>{"Create Account"}</button></Link>
     </span>
   </p>
+
+  <p>
+    Automatic Login for development:
+    <br/>
+    <button onClick={autoLogin}>Login as johnsmith@gmail.com</button>
+  </p>
   </div>
 
+    
 
   )
 }
