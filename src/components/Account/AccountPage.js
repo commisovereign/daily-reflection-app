@@ -30,12 +30,6 @@ const AccountPage = ({setLoggedInOnApp, setUserId }) => {
     userRef.current.focus();
   },[])
 
-//Used for faster login for development & testing
-  const autoLogin = async (e) =>{
-    setEmail("johnsmith@gmail.com");
-    setPw("password");
-  }
-
   const onLoginAttempt = async (e) =>{
     e.preventDefault();
     if (!email || !pw) {
@@ -126,9 +120,18 @@ const AccountPage = ({setLoggedInOnApp, setUserId }) => {
   </p>
 
   <p>
-    Automatic Login for development:
+    Automatic Login for development/testing:
     <br/>
-    <button onClick={autoLogin}>Login as johnsmith@gmail.com</button>
+  <form onSubmit={onLoginAttempt}>
+    <input
+        type = 'submit'
+        onClick={(e)=>{
+          setEmail('johnsmith@gmail.com'); 
+          setPw('password');
+        }}
+        value='Login automatically as johnsmith@gmail.com'>
+    </input>
+  </form>
   </p>
   </div>
 
