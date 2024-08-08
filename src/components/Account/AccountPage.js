@@ -2,9 +2,6 @@ import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import {Link, useNavigate, useLocation} from 'react-router-dom'
 import useAuth from '../../hooks/useAuth';
-import { wait } from '@testing-library/user-event/dist/utils';
-
-
 
 const AccountPage = ({setLoggedInOnApp, setUserId }) => {
   const {setAuth} = useAuth();
@@ -15,23 +12,36 @@ const AccountPage = ({setLoggedInOnApp, setUserId }) => {
 
   const userRef = useRef();
   const errRef = useRef();
-  const [loggedIn,setLoggedIn] = useState(false);
+  //checks whether user has already logged in when accessing this page 
+  const [loggedIn,setLoggedIn] = useState(() => {
+    return localStorage.getItem('isLoggedIn') === 'true';
+  });
   const [email,setEmail] = useState('');
   const [pw,setPw] = useState('');
   const [errMsg,setErrMsg]= useState('');
 
-  const LogOut = () => setLoggedIn(false);
-
+  const LogOut = () => {
+    setLoggedIn(false);
+    setAuth({});
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('token');
+    localStorage.removeItem('userid');
+    setEmail('');  // Clear email
+    setPw('');     // Clear password
+    setUserId(''); // Clear userid
+    setLoggedInOnApp(false);
+  };
   useEffect(()=>{
     setErrMsg('');
   },[loggedIn])
-
+/*
   useEffect(()=>{
     userRef.current.focus();
   },[])
-
+*/
   const onLoginAttempt = async (e) =>{
     e.preventDefault();
+    console.log('Before login:', { email, pw });
     if (!email || !pw) {
         setErrMsg("Invalid Entry");
         return;
@@ -45,7 +55,7 @@ const AccountPage = ({setLoggedInOnApp, setUserId }) => {
       credentials: 'same-origin'
     });
     const data = await response.json()
-    console.log(data)
+    console.log('Login response:',data)
     if(!data.message){
       //localStorage.setItem("token", data.token);
       //localStorage.setItem("userid", data.idusers);
@@ -54,6 +64,9 @@ const AccountPage = ({setLoggedInOnApp, setUserId }) => {
       setAuth({email,pw, accessToken});
       setLoggedIn(true);
       setUserId(data.result[0].idusers);
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('userid', data.result[0].idusers);
       setLoggedInOnApp(true);
       setEmail('');
       setPw('');
@@ -64,7 +77,7 @@ const AccountPage = ({setLoggedInOnApp, setUserId }) => {
       setErrMsg(data.message);
       errRef.current.focus();
     }
-
+    console.log('After login:', { email, pw });
   }
 
  const userAuthenticated = async() =>{
@@ -108,9 +121,10 @@ const AccountPage = ({setLoggedInOnApp, setUserId }) => {
   {loggedIn &&<div>
     <h3>You're Logged In</h3>
       <button onClick={LogOut}>Log Out</button>
+      <br/>
       <button onClick={userAuthenticated}>Check if authenticated</button>
   </div>}
-  
+  {!loggedIn &&
   <p>
     Don't have an account yet?
     <br/>
@@ -118,11 +132,11 @@ const AccountPage = ({setLoggedInOnApp, setUserId }) => {
     <Link to='/CreateAccount'><button>{"Create Account"}</button></Link>
     </span>
   </p>
-
-  <p>
-    Automatic Login for development/testing:
-    <br/>
+  }
+  {!loggedIn &&
   <form onSubmit={onLoginAttempt}>
+    <p>Automatic Login for development/testing:
+    <br/>
     <input
         type = 'submit'
         onClick={(e)=>{
@@ -131,8 +145,9 @@ const AccountPage = ({setLoggedInOnApp, setUserId }) => {
         }}
         value='Login automatically as johnsmith@gmail.com'>
     </input>
-  </form>
-  </p>
+    </p>
+  </form>}
+  
   </div>
 
     

@@ -27,7 +27,7 @@ function App() {
 
 
   useEffect(()=>{
-    if (loggedIn) {
+    if (loggedIn && curUserId) {
     const getReflections = async () =>{
       const reflectionsfromServer = await fetchReflections()
       setReflections(reflectionsfromServer)
@@ -39,6 +39,9 @@ function App() {
     }
     getReflections()
     getWeather()
+  }
+  else{
+    setReflections([]);
   }
   },[loggedIn, curUserId])
 
