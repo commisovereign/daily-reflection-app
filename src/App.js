@@ -21,11 +21,12 @@ function App() {
   const [toggleAddReflection, setToggleAddReflection]= useState(false);
   const [reflections,setReflections] = useState([]);
   const [style,setStyle] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [curUserId, setCurUserId] = useState('');
+  const [loggedIn, setLoggedIn] = useState(() => localStorage.getItem('isLoggedIn') === 'true');
+  const [curUserId, setCurUserId] = useState(() => localStorage.getItem('userid') || '');
   const [weather, setWeather] = useState('');
-
-
+  const [latText, setLatText] = useState('');
+  const [longText, setLongText] = useState('');
+  
   useEffect(()=>{
     if (loggedIn && curUserId) {
     const getReflections = async () =>{
@@ -33,15 +34,14 @@ function App() {
       setReflections(reflectionsfromServer)
       //console.log(reflectionsfromServer)
     }
-    const getWeather = async()=>{
-      const weatherFromAPI = await fetchWeather();
-      setWeather(weatherFromAPI);
+    const getLocation = async()=>{
+      const curLocation = await fetchLocation();
     }
     getReflections()
-    getWeather()
+    getLocation()
   }
   else{
-    setReflections([]);
+    setReflections([]); // Clear reflections on logout
   }
   },[loggedIn, curUserId])
 
@@ -52,15 +52,35 @@ function App() {
       };
       getUserId();
     }
-  },[loggedIn, curUserId])
+  },[loggedIn, curUserId]);
 
-  const fetchWeather = async () =>{
-    //minneapolis weather
-    const res = await fetch("https://api.weather.gov/points/44.9778,-93.2650", {method: "GET"});
+  useEffect(()=>{
+    if (latText && longText) {
+      const getWeather = async()=>{
+        const weatherFromAPI = await fetchWeather();
+        setWeather(weatherFromAPI);
+      }
+      getWeather();
+    }
+  }, [latText, longText]);
+
+  const fetchLocation = async() =>{
+    navigator.geolocation.getCurrentPosition((position) => {
+      let lat = position.coords.latitude;
+      let long = position.coords.longitude;
+      setLatText(lat.toFixed(4));
+      setLongText(long.toFixed(4));
+    });
+  }
+  const fetchWeather = async() =>{
+    //gets user's physical position
+    const res = await fetch(`https://api.weather.gov/points/${latText},${longText}`, {method: "GET"});
     const data = await res.json();
     const mspForecast = await fetch(data.properties.forecast, {method: "GET"});
     const data1 = await mspForecast.json();
     console.log(data1.properties.periods[0].detailedForecast);
+    
+
     return data1.properties.periods[0].detailedForecast;
   }
 
@@ -108,7 +128,7 @@ function App() {
             {(reflections.length > 0) && <DayScoreChart  reflections={reflections}/>}
             {(reflections.length > 0) && <ProductivityChart reflections={reflections}/>}
             {(reflections.length > 0) && <UserTrends trends = {reflections}/>}
-            <div className='weather'> {"Weather in Minneapolis MN: "}{<p>{weather}</p>} </div>
+            <div className='weather'> {"Weather Today: "}{<p>{weather}</p>} </div>
 
             </div>
             

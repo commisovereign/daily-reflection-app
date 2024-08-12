@@ -12,13 +12,22 @@ const AccountPage = ({setLoggedInOnApp, setUserId }) => {
 
   const userRef = useRef();
   const errRef = useRef();
+  const [email,setEmail] = useState('');
+  const [pw,setPw] = useState('');
+  const [errMsg,setErrMsg]= useState('');
   //checks whether user has already logged in when accessing this page 
   const [loggedIn,setLoggedIn] = useState(() => {
     return localStorage.getItem('isLoggedIn') === 'true';
   });
-  const [email,setEmail] = useState('');
-  const [pw,setPw] = useState('');
-  const [errMsg,setErrMsg]= useState('');
+  //Ensures that setAuth is properly initialized when the user is already logged in
+  useEffect(() => {
+    if (loggedIn) {
+        const storedAuth = localStorage.getItem('auth');
+        if (storedAuth) {
+            setAuth(JSON.parse(storedAuth));
+        }
+    }
+}, [loggedIn, setAuth]);
 
   const LogOut = () => {
     setLoggedIn(false);
@@ -26,6 +35,7 @@ const AccountPage = ({setLoggedInOnApp, setUserId }) => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('token');
     localStorage.removeItem('userid');
+    localStorage.removeItem('auth');
     setEmail('');  // Clear email
     setPw('');     // Clear password
     setUserId(''); // Clear userid
@@ -57,16 +67,16 @@ const AccountPage = ({setLoggedInOnApp, setUserId }) => {
     const data = await response.json()
     console.log('Login response:',data)
     if(!data.message){
-      //localStorage.setItem("token", data.token);
-      //localStorage.setItem("userid", data.idusers);
-
       const accessToken = data?.token;
-      setAuth({email,pw, accessToken});
+      console.log("email on loginAttempt: ",email)
+      setAuth({email, pw,  accessToken});
       setLoggedIn(true);
       setUserId(data.result[0].idusers);
+
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('token', data.token);
       localStorage.setItem('userid', data.result[0].idusers);
+
       setLoggedInOnApp(true);
       setEmail('');
       setPw('');
