@@ -14,6 +14,7 @@ import MapReflections from './components/MapReflectionList';
 import TestChart from './components/Graphics/TestChart';
 import RequireAuth from './components/RequireAuth';
 import UserTrends from './components/UserSummary';
+import HeatMap from './components/Graphics/HeatMap';
 
 //import AuthContext from './context/AuthProvider';
 
@@ -127,9 +128,9 @@ function App() {
             <AddReflection onAdd={addReflection} toggle = {toggleAddReflection} sideStyle = {style ? "add-reflection-side-bar":"add-reflection"} userId={curUserId} />
             {(reflections.length > 0) && <DayScoreChart  reflections={reflections}/>}
             {(reflections.length > 0) && <ProductivityChart reflections={reflections}/>}
+            <HeatMap userId={curUserId}/>
             {(reflections.length > 0) && <UserTrends trends = {reflections}/>}
             <div className='weather'> {"Weather Today: "}{<p>{weather}</p>} </div>
-
             </div>
             
           }/>
