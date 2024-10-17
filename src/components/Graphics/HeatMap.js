@@ -3,7 +3,9 @@ import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
 import './HeatMap.css';
 
-const HeatMap = ({userId})=>{
+//Displays a grid over the course of the past year where filled in squares indicate
+//dates that have associated entries and displays differing shades depending on scores
+const HeatMap = ({userId, scoreType})=>{
     const [contributions, setContributions] = useState([]);
     useEffect(() => {
         fetch(`http://localhost:5002/api/get/${userId}`)
@@ -11,10 +13,10 @@ const HeatMap = ({userId})=>{
           .then(data => {
             setContributions(data.map(item => ({
               date: item.dates,
-              count: item.dayScore
+              count: item[scoreType]
             })));
           });
-      }, [userId]);
+      }, [userId, scoreType]);
       let startDate = new Date();
       let startYear = parseInt(startDate.getFullYear().toString().slice(0,4)) - 1;
       let startMonth = startDate.getMonth();
