@@ -16,11 +16,13 @@ const HeatMap = ({userId, scoreType})=>{
               count: item[scoreType]
             })));
           });
+          
       }, [userId, scoreType]);
       let startDate = new Date();
       let startYear = parseInt(startDate.getFullYear().toString().slice(0,4)) - 1;
-      let startMonth = startDate.getMonth();
+      let startMonth = startDate.getMonth() + 1;
       let startDay = startDate.getDay();
+
       return (
         <div className="contribution-calendar">
           <CalendarHeatmap
