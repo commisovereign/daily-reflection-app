@@ -128,12 +128,12 @@ function App() {
             <AddReflection onAdd={addReflection} toggle = {toggleAddReflection} sideStyle = {style ? "add-reflection-side-bar":"add-reflection"} userId={curUserId} />
             {(reflections.length > 0) && <DayScoreChart  reflections={reflections}/>}
             {(reflections.length > 0) && <ProductivityChart reflections={reflections}/>}
-            <div>
+
               <h3>Reflection Map of Day Scores</h3>
               <HeatMap userId={curUserId} scoreType={'dayScore'}/>
               <h3>Reflection Map of productivity Scores</h3>
               <HeatMap userId ={curUserId} scoreType={'productivityScore'}/>
-            </div>
+
             {(reflections.length > 0) && <UserTrends trends = {reflections}/>}
             <div className='weather'> {"Weather Today: "}{<p>{weather}</p>} </div>
             </div>

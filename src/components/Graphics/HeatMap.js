@@ -22,6 +22,7 @@ const HeatMap = ({userId, scoreType})=>{
       let startYear = parseInt(startDate.getFullYear().toString().slice(0,4)) - 1;
       let startMonth = startDate.getMonth() + 1;
       let startDay = startDate.getDay();
+      console.log(startMonth)
 
       return (
         <div className="contribution-calendar">

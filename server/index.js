@@ -1,15 +1,26 @@
 const express = require("express");
 const app = express();
-const mysql = require("mysql");
+const mysql2 = require("mysql2");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') });
 
-const db = mysql.createPool({
-    host: "localhost",
-    user:"root",
-    password:"password",
-    database:"reflectionsdatabase",
+
+const db = mysql2.createConnection({
+    host: process.env.DB_HOST,
+    user:process.env.DB_USER,
+    password:process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
+});
+
+db.connect((err) => {
+    if (err) {
+      console.error('Connection error:', err.stack);
+      return;
+    }
+    console.log('Connected to AWS!');
 });
 
 app.use(cors());
@@ -33,7 +44,7 @@ app.get('/api/get/:userId', (req, res)=>{
     const userId = req.params.userId;
     console.log(`Fetching reflections for user ID: ${userId}`);
     db.query(
-        "SELECT * FROM reflectionsdatabase.reflections WHERE userId = ?",
+        "SELECT * FROM `reflections-database-1`.reflections WHERE userId = ?",
         [userId],
         (err, result)=>{
             if (err) {
