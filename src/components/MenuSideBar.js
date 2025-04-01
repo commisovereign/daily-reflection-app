@@ -62,9 +62,6 @@ const MenuSideBar = ({setSide}) => {
                         }
                         }> About</Link>
                     </li>
-                    <li className="nav-text">
-                        <a href ="http://localhost:5001/reflections" target="_blank" >Raw Data</a>
-                    </li>
                 </ul>
             </nav>
 
